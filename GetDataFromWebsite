@@ -1,0 +1,47 @@
+' This particular example pulls in data from Wunderground.com in the form of a CSV file.  It requires the passing in of a day
+' that will be used to get the data for that particular day.  The format is mm/dd/yyyy.
+' Additionally, you will need to go to Tools > References and add Microsoft Internet Controls due to the use of the
+' InternetExplorer object.
+
+Sub GetData(day)
+
+' Initialize
+  Dim IE as InternetExplorer
+  Dim WSD as WorkSheet
+  Dim url as string
+  
+  If Not IsEmpty(day) Then
+    url = "http://www.wunderground.com/history/airport/KCMH/" & Format(day, "yyyy/m/d") & "/DailyHistory.html?format=1"
+    
+    ' Get data from website
+        ' Identify worksheet to save data to
+        Set WSD = Worksheets("Data")
+        
+        ' Create new instance of Internet Explorer object
+        Set IE = New InternetExplorer
+        
+        ' Go to wunderground.com history page containing csv data
+        IE.navigate (url)
+        
+        ' Set internet explorer object to visible if you want to confirm proper page has opened.  This is not necessary, though
+        IE.Visible = True
+        
+        ' Wait for webpage to completely open before proceeding with program
+        Do While IE.readyState <> READYSTATE_COMPLETE Or IE.Busy
+            DoEvents
+        Loop
+        
+        ' Select all data contained in webpage
+        IE.ExecWB OLECMDID_SELECTALL, OLECMDEXECOPT_DONTPROMPTUSER
+        
+        ' Copy all selected data from webpage
+        IE.ExecWB OLECMDID_COPY, OLECMDEXECOPT_DONTPROMPTUSER
+        
+        ' Paste data from webpage into cell A1 of worksheet
+        WSD.Range("A1").PasteSpecial
+        
+        ' Close out instance of internet explorer object    
+        IE.Quit
+    End If
+
+End Sub
