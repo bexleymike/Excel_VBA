@@ -8,7 +8,7 @@ Sub GetData(day)
 ' Initialize
   Dim IE as InternetExplorer
   Dim WSD as WorkSheet
-  Dim url as string
+  Dim url as String
   
   If Not IsEmpty(day) Then
     ' Create url to access specific day's csv file.  The passed in input 'day' is formatted to matcch the format required
