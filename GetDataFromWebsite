@@ -1,5 +1,5 @@
 ' This particular example pulls in data from Wunderground.com in the form of a CSV file.  It requires the passing in of a day
-' that will be used to get the data for that particular day.  The format is mm/dd/yyyy.
+' that will be used to get the data for that particular day.  The format is yyyy/m/d.
 ' Additionally, you will need to go to Tools > References and add Microsoft Internet Controls due to the use of the
 ' InternetExplorer object.
 
@@ -11,6 +11,8 @@ Sub GetData(day)
   Dim url as string
   
   If Not IsEmpty(day) Then
+    ' Create url to access specific day's csv file.  The passed in input 'day' is formatted to matcch the format required
+    ' by Wunderground.com's historical data.
     url = "http://www.wunderground.com/history/airport/KCMH/" & Format(day, "yyyy/m/d") & "/DailyHistory.html?format=1"
     
     ' Get data from website
